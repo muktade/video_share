@@ -1,17 +1,17 @@
 package com.example.myyoutube.entity;
 
+import com.example.myyoutube.baseentity.BaseEntity;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
 @Table(name = "video")
-public class Video {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Video extends BaseEntity {
 
     @Column(name = "video_id")
     private String videoId;
@@ -20,12 +20,21 @@ public class Video {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user_id;
+    @JoinColumn(name = "uploaded_by", referencedColumnName = "id")
+    private User uploadedBy;
 
-    @Column(name = "description")
-    private String description;
+   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime uplodedDate;
 
     @Column(name = "total_views")
     private Long totalViews;
+
+    @ManyToMany
+    @JoinColumn(name = "like_by", referencedColumnName = "id")
+    private List<User> likeBy;
+
+    @ManyToMany
+    @JoinColumn(name = "dislike_by", referencedColumnName = "id")
+    private List<User> dislikeBy;
+
 }
