@@ -1,6 +1,5 @@
 package com.example.myyoutube.entity;
 
-import com.example.myyoutube.baseentity.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
