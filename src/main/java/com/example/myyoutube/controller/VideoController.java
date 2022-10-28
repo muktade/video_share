@@ -5,11 +5,14 @@ import com.example.myyoutube.entity.User;
 import com.example.myyoutube.entity.Video;
 import com.example.myyoutube.service.UserService;
 import com.example.myyoutube.service.VideoService;
+import com.example.myyoutube.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -41,15 +44,26 @@ public class VideoController {
 
 
     ///Find All Video
-    @GetMapping("allvideos")
-    private List<Video> findAllVideos(){
-        return videoService.getAllVideo();
+    @GetMapping(value = "allvideos/{pageNumber}/{pageSize}/{sortDirection}",
+    produces = APPLICATION_JSON_VALUE)
+    private ResponseEntity<Page<Video>> findAllVideos(@PathVariable(value = "pageNumber",required = false) Integer pageNumber,
+                                                @PathVariable(value = "pageSize", required = false) Integer pageSize,
+                                                @PathVariable(value = "sortDirection", required = false) String sortDirection){
+        Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, sortDirection, "id");
+        Page<Video> page = videoService.getAllVideo();
+        return ResponseEntity.ok(page);
     }
 
     ///Find All Videos By User
-    @GetMapping("userallvideos/{userId}") ///user Id = Login User Id
-    public List<Video> findAllVideoByUserId(@PathVariable("userId") Long id){
-        return videoService.findAllVideoByUserId(id);
+    @GetMapping(value = "userallvideos/{userId}/{pageNumber}/{pageSize}/{sortDirection}") ///user Id = Login User Id
+    public ResponseEntity<Page<Video>> findAllVideoByUserId(@PathVariable("userId") Long id,
+                                            @PathVariable(value = "pageNumber", required = false) Integer pageNumber,
+                                            @PathVariable(value = "pageSize", required = false) Integer pageSize,
+                                            @PathVariable(value = "sortDirection", required = false) String sortDirection){
+
+        Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, sortDirection, "id");
+        Page<Video> page = videoService.getAllVideo();
+        return ResponseEntity.ok(page);
     }
 
     ///find Video Info By Id and increase total views
