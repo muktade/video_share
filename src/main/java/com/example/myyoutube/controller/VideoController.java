@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -50,7 +49,7 @@ public class VideoController {
                                                 @PathVariable(value = "pageSize", required = false) Integer pageSize,
                                                 @PathVariable(value = "sortDirection", required = false) String sortDirection){
         Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, sortDirection, "id");
-        Page<Video> page = videoService.getAllVideo();
+        Page<Video> page = videoService.getAllVideo(pageable);
         return ResponseEntity.ok(page);
     }
 
@@ -62,7 +61,7 @@ public class VideoController {
                                             @PathVariable(value = "sortDirection", required = false) String sortDirection){
 
         Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, sortDirection, "id");
-        Page<Video> page = videoService.getAllVideo();
+        Page<Video> page = videoService.getAllVideo(pageable);
         return ResponseEntity.ok(page);
     }
 

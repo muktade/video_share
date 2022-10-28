@@ -29,7 +29,7 @@ public class UserServiceImp implements UserService {
 
         User usr = new User();
         usr.setName(user.getName());
-        usr.setEmail(user.getEmail());
+        usr.setUsername(user.getUsername());
         usr.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(usr); ///for user save
     }
@@ -42,7 +42,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)   ///ekhane
+        return userRepository.findByUsername(email)   ///ekhane
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User not found"));
     }

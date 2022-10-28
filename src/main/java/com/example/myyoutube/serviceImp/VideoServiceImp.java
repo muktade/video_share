@@ -6,6 +6,8 @@ import com.example.myyoutube.repository.UserRepository;
 import com.example.myyoutube.repository.VideoRepository;
 import com.example.myyoutube.service.VideoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +25,9 @@ public class VideoServiceImp implements VideoService{
     }
 
     @Override
-    public List<Video> getAllVideo() {
-        return videoRepository.findAll();
+    public Page<Video> getAllVideo(Pageable pageable) {
+        Page<Video> page = videoRepository.findAll(pageable);
+        return page;
     }
 
     @Override
