@@ -1,12 +1,12 @@
 package com.example.myyoutube.entity;
 
-import com.example.myyoutube.baseentity.BaseEntity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,15 +16,18 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "name")
     private String  name;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "password")
     private String password;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    private List<Role> roles;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
