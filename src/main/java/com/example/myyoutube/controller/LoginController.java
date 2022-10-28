@@ -1,5 +1,6 @@
 package com.example.myyoutube.controller;
 
+import com.example.myyoutube.entity.User;
 import com.example.myyoutube.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ public class LoginController {
         if (logout != null) {
             model.addAttribute("message", "You have been logged out successfully");
         }
+
+        model.addAttribute("entity", new User());
         return "auth/login";
     }
 
