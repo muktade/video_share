@@ -34,7 +34,7 @@ public class UserController {
     ////List of User
     @GetMapping("list/{id}")
     public List<User> getUsers(@PathVariable("id") Long id){
-        Long[] ids = new Long[2];
+        Long[] ids = new Long[2];   ///user id array diye user list arry ber korte hobe
         ids[0] = id;
         ids[1]= Long.parseLong("2");
         List<User> users = userService.getUser(ids);
