@@ -24,7 +24,7 @@ public class Video extends BaseEntity {
     private User uploadedBy;
 
    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime uplodedDate;
+    private LocalDateTime uploadedDate;
 
     @Column(name = "total_views")
     private Long totalViews;

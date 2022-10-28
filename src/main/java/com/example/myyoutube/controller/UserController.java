@@ -32,7 +32,7 @@ public class UserController {
     }
 
     ////List of User
-    @GetMapping("list/{id}")
+    @GetMapping("list/{id}") ///video id eta , ai id diye user id get korte hobe, pore ta diye user info ber korte hobe
     public List<User> getUsers(@PathVariable("id") Long id){
         Long[] ids = new Long[2];   ///user id array diye user list arry ber korte hobe
         ids[0] = id;
