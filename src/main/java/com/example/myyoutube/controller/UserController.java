@@ -5,12 +5,13 @@ import com.example.myyoutube.entity.User;
 import com.example.myyoutube.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/user/")
 @AllArgsConstructor
 public class UserController {
@@ -18,9 +19,16 @@ public class UserController {
     private final UserService userService;
 
     ///For User Registration
+    @GetMapping("user-form")
+    public String addUserPage(Model model) {
+        model.addAttribute("user", new User());
+        return "user/add_user";
+    }
+
     @PostMapping("save")
-    public User addUser(@RequestBody User user){
-        return userService.saveUser(user);
+    public String  addUser(@RequestBody User user){
+        userService.saveUser(user);
+        return "success";
     }
 
     ////List of User
