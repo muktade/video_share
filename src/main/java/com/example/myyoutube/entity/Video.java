@@ -28,11 +28,11 @@ public class Video extends BaseEntity {
     @Column(name = "total_views")
     private Long totalViews;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "like_by", referencedColumnName = "id")
     private List<User> likeBy;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "dislike_by", referencedColumnName = "id")
     private List<User> dislikeBy;
 

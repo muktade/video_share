@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.com">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -24,7 +25,7 @@
                         </div>
 
                         <div class="col-md-12">
-                            <input class="form-control" type="email" th:field="*{email}" placeholder="E-mail Address"
+                            <input class="form-control" type="email" th:field="*{username}" placeholder="E-mail Address"
                                    required>
                         </div>
 

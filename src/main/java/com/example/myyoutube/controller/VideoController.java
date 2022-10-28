@@ -32,15 +32,12 @@ public class VideoController {
 
         Video vdo = new Video();
         vdo.setTitle(video.getTitle());
-        vdo.setVideoId(this.getVideoUniqueId(video.getVideoId())); ///video unique id
+        vdo.setVideoId(this.getVideoUniqueId(video.getVideoId())); ///Find video unique id
         vdo.setUploadedBy(new User());              /////login user id diye kaj korte hobe
         vdo.setUploadedDate(this.getLocalDateTime());
 
         return videoService.saveVideo(vdo);
     }
-
-
-
 
     ///Find All Video
     @GetMapping(value = "allvideos/{pageNumber}/{pageSize}/{sortDirection}",
@@ -93,16 +90,13 @@ public class VideoController {
         return "newVideoInfo";
     }
 
-
-
     ///Find Video Upload User Information
     @GetMapping("userinfo/{videoId}")
     public User getUserInf(@PathVariable("videoId") Long id){
         return videoService.findUserInfo(id);
     }
 
-
-    ///////// extra methods
+    ///////// extra methods//////////
 
     private String getVideoUniqueId(String videoId) {
         return videoId.substring(videoId.lastIndexOf("/"+1));
