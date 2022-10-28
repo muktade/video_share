@@ -2,55 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.com">
 
 <head>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
 
 <body>
 
 
-    <!--    <input type="hidden" th:field="*{id}"/>-->
+<!--    <input type="hidden" th:field="*{id}"/>-->
 
-    <div class="form-body">
-        <div class="row">
-            <div class="form-holder">
-                <div class="form-content">
-                    <div class="form-items">
-                        <h3>Register Today</h3>
-                        <p>Fill in the data below.</p>
-                        <form class="requires-validation" th:action="@{/user/save}" th:object="${user}" method="post" >
+<div class="form-body">
+    <div class="row">
+        <div class="form-holder">
+            <div class="form-content">
+                <div class="form-items">
+                    <h3>Register Today</h3>
+                    <p>Fill in the data below.</p>
+                    <form class="requires-validation" th:action="@{/user/save}" th:object="${user}" method="post" >
 
-                            <div class="col-md-12">
-                                <input class="form-control" type="text" th:field="*{name}" placeholder="Full Name"
-                                       required>
+                        <div class="col-md-12">
+                            <input class="form-control" type="text" th:field="*{name}" placeholder="Full Name"
+                                   required>
 
-                            </div>
+                        </div>
 
-                            <div class="col-md-12">
-                                <input class="form-control" type="email" th:field="*{email}" placeholder="E-mail Address"
-                                       required>
+                        <div class="col-md-12">
+                            <input class="form-control" type="email" th:field="*{email}" placeholder="E-mail Address"
+                                   required>
 
-                            </div>
+                        </div>
 
 
-                            <div class="col-md-12">
-                                <input class="form-control" type="password" th:field="*{password}" placeholder="Password"
-                                       required>
+                        <div class="col-md-12">
+                            <input class="form-control" type="password" th:field="*{password}" placeholder="Password"
+                                   required>
 
-                            </div>
+                        </div>
 
-                            <div class="form-button mt-3">
-                                <button id="submit" type="submit" class="btn btn-primary">Register</button>
-                            </div>
-                        </form>
-                    </div>
+                        <div class="form-button mt-3">
+                            <button id="submit" type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-
-
+</div>
 </body>
 
 </html>

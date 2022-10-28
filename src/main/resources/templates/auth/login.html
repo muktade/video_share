@@ -1,28 +1,92 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.com">
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+<head>
 
-<head></head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link th:href="@{/css/login_style.css}" rel="stylesheet"/>
 
+</head>
 <body>
+<div class="container mt-5">
+    <form method="post" action="/login">
 
-<form method="post" action="/login">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <div>
-        <label> Username </label>
-        <input type="text" id="username" name="username" placeholder="Username" required="" autofocus="">
-    </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+                <div class="card px-5 py-5" id="form1">
+                    <div class="form-data" v-if="!submitted">
+                        <div class="forms-inputs mb-4"><span>Email or username</span>
+                            <input autocomplete="off" type="text" name="email"
+                                   class="{'form-control':true, 'is-invalid' : !validEmail(email) && emailBlured}"
+                                   blur="emailBlured = true">
+                            <div class="invalid-feedback">A valid email is required!</div>
+                        </div>
+                        <div class="forms-inputs mb-4"><span>Password</span> <input autocomplete="off" type="password"
+                                                                                    name="password"
+                                                                                    class="{'form-control':true, 'is-invalid' : !validPassword(password) && passwordBlured}"
+                                                                                    blur="passwordBlured = true">
 
-    <div>
-        <label> Password </label>
-        <input type="password" id="password" name="password" placeholder="Password" required="">
-    </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark w-100">Login</button>
+                        </div>
+                    </div>
+                    <div class="success-data" v-else>
+                        <div class="text-center d-flex flex-column"><i class='bx bxs-badge-check'></i> <span
+                                class="text-center fs-1">You have been logged in <br> Successfully</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var app = new Vue({
+        el: '#form1',
+        data: function () {
+            return {
+                email: "",
+                emailBlured: false,
+                valid: false,
+                submitted: false,
+                password: "",
+                passwordBlured: false
+            }
+        },
 
-    <div>
-        <button type="submit">Login</button>
-    </div>
+        methods: {
 
-</form>
+            validate: function () {
+                this.emailBlured = true;
+                this.passwordBlured = true;
+                if (this.validEmail(this.email) && this.validPassword(this.password)) {
+                    this.valid = true;
+                }
+            },
 
+            validEmail: function (email) {
+
+                var re = /(.+)@(.+){2,}\.(.+){2,}/;
+                if (re.test(email.toLowerCase())) {
+                    return true;
+                }
+
+            },
+
+            validPassword: function (password) {
+                if (password.length > 7) {
+                    return true;
+                }
+            },
+
+            submit: function () {
+                this.validate();
+                if (this.valid) {
+                    this.submitted = true;
+                }
+            }
+        }
+    });
+</script>
 </body>
-
 </html>
