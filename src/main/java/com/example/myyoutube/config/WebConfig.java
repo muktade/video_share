@@ -1,4 +1,4 @@
-package com.idb.tasks.config;
+package com.example.myyoutube.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("http://localhost:4200")
+                .allowedOriginPatterns("http://localhost:8086")
                 .allowCredentials(true)
                 .allowedHeaders("Origin", "Access-Control-Allow-Origin", "Content-Type",
                         "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
