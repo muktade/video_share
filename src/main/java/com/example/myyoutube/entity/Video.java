@@ -1,6 +1,5 @@
 package com.example.myyoutube.entity;
 
-import com.example.myyoutube.baseentity.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,17 +23,20 @@ public class Video extends BaseEntity {
     private User uploadedBy;
 
    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime uplodedDate;
+    private LocalDateTime uploadedDate;
 
     @Column(name = "total_views")
-    private Long totalViews;
+    private long totalViews;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "like_by", referencedColumnName = "id")
     private List<User> likeBy;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "dislike_by", referencedColumnName = "id")
     private List<User> dislikeBy;
+
+    @Transient
+    private String videoLink;
 
 }

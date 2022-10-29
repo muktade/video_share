@@ -5,7 +5,6 @@ import com.example.myyoutube.entity.User;
 import com.example.myyoutube.repository.UserRepository;
 import com.example.myyoutube.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,19 +18,18 @@ import java.util.List;
 public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
     public User saveUser(User user) {
-
-        User usr = new User();
-        usr.setName(user.getName());
-        usr.setEmail(user.getEmail());
-        usr.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(usr); ///for user save
+        boolean alreadyExists = userRepository.existsByUsername(user.getUsername());
+        if (!alreadyExists) {
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+            userRepository.save(user);
+        }
+        return user;
     }
 
     @Override
@@ -41,9 +39,18 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)   ///ekhane
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User not found"));
     }
+
+//    public static User getAuthUser() {
+//        User user = null;
+//        try {
+//            user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        } catch (Exception ignored) {
+//        }
+//        return user;
+//    }
 }
