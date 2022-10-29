@@ -7,6 +7,8 @@ public class Constants {
 
     public static final String VDO_SHARE_TEMPLATE = "https://youtu.be/";
     public static final String KEY_MESSAGE = "message";
+    public static final String KEY_ERROR = "error";
+    public static final String KEY_USER = "user";
 
 //    System.out.println("https://youtu.be/tiFKml1IKII".substring("https://youtu.be/tiFKml1IKII".lastIndexOf("/") + 1));
 }
