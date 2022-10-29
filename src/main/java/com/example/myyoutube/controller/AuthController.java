@@ -3,12 +3,16 @@ package com.example.myyoutube.controller;
 import com.example.myyoutube.entity.User;
 import com.example.myyoutube.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import static com.example.myyoutube.common.Constants.*;
@@ -20,8 +24,12 @@ public class AuthController {
 
     private final UserService userService;
 
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
     @GetMapping(value = "register")
     public String registerForm(Model model) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute(KEY_USER, new User());
         return "auth/register";
     }
@@ -66,8 +74,10 @@ public class AuthController {
     }
 
     @PostMapping(value = {"login", "login/{message}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String loginSuccess(@PathVariable(value = KEY_MESSAGE, required = false) String message, Model model) {
+    public String loginSuccess(@PathVariable(value = KEY_MESSAGE, required = false) String message, Model model, HttpSession session) {
         model.addAttribute(KEY_MESSAGE, message);
-        return "index";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        session.setAttribute("user", user);
+        return "redirect:/dashboard/";
     }
 }

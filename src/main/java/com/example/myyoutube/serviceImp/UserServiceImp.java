@@ -5,6 +5,7 @@ import com.example.myyoutube.entity.User;
 import com.example.myyoutube.repository.UserRepository;
 import com.example.myyoutube.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,4 +45,13 @@ public class UserServiceImp implements UserService {
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User not found"));
     }
+
+//    public static User getAuthUser() {
+//        User user = null;
+//        try {
+//            user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        } catch (Exception ignored) {
+//        }
+//        return user;
+//    }
 }

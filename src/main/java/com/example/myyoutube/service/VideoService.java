@@ -12,7 +12,7 @@ import java.util.List;
 public interface VideoService {
 
     ///save video
-    public Video saveVideo(Video video);
+    Video saveVideo(Video video);
 
     ///All Videos
     Page<Video> getAllVideo(Pageable pageable);
@@ -21,9 +21,13 @@ public interface VideoService {
     List<Video> findAllVideoByUserId(Long id);
 
     ///Find Video All Information By Video Id
-    public Video getVideoInfoById(Long id);
+    Video getVideoInfoById(Long id);
 
     ///Find Video Uploader Info
-    public User findUserInfo(Long videoId);
+    User findUserInfo(Long videoId);
+
+    boolean addVideoView(long videoId);
+
+
 
 }

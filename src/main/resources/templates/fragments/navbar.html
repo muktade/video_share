@@ -17,12 +17,26 @@
                         <li class="nav-item" th:classappend="${module == null ? 'active' : ''}">
                             <a class="nav-link" href="#" th:href="@{/home}" > Home </a>
                         </li>
-                        <li class="nav-item" th:classappend="${module == 'register' ? 'active' : ''}">
-                            <a class="nav-link" href="#" th:href="@{/admin/register}"> Register </a>
+
+<!--                        <li class="nav-item" th:classappend="${module == 'register' ? 'active' : ''}">-->
+<!--                            <a class="nav-link" href="#" th:href="@{/auth/register}"> Register </a>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item" th:classappend="${module == 'login' ? 'active' : ''}">-->
+<!--                            <a class="nav-link" href="#" th:href="@{/auth/login}"> Login </a>-->
+<!--                        </li>-->
+                        <li class="nav-item" th:if="${auth==null}">
+                            <a class="nav-link" href="#" th:href="@{/auth/register}"> Register </a>
                         </li>
-                        <li class="nav-item" th:classappend="${module == 'login' ? 'active' : ''}">
-                            <a class="nav-link" href="#" th:href="@{/login}"> Login </a>
+                        <li class="nav-item" th:if="${auth==null}">
+                            <a class="nav-link" href="#" th:href="@{/auth/login}"> Login </a>
                         </li>
+                        <li class="nav-item" th:if="${auth!=null}">
+                            <a class="nav-link" href="#" th:href="@{/dashboard}"> Dashboard </a>
+                        </li>
+                        <li class="nav-item" th:if="${auth!=null}">
+                            <a class="nav-link" href="#" th:href="@{/logout}"> Log Out </a>
+                        </li>
+
                     </ul>                    
                 </div>
             </nav>

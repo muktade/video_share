@@ -26,7 +26,7 @@ public class Video extends BaseEntity {
     private LocalDateTime uploadedDate;
 
     @Column(name = "total_views")
-    private Long totalViews;
+    private long totalViews;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "like_by", referencedColumnName = "id")
@@ -35,5 +35,8 @@ public class Video extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "dislike_by", referencedColumnName = "id")
     private List<User> dislikeBy;
+
+    @Transient
+    private String videoLink;
 
 }

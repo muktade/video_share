@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">My Youtube</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/navbar :: homenav">
+</div>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+
+
+    <form action="#" th:action="@{/video/savea}" th:object="${video}" method="post">
+        <div class="form-group">
+
+            <input class="form-control" type="hidden" th:field="*{id}"/>
+
+            <div>
+                <label> Video Title </label>
+                <input class="form-control" type="text" th:field="*{title}"/>
+            </div>
+
+            <div>
+                <label> Video Share Link </label>
+                <input class="form-control" type="text" th:field="*{videoId}"/>
+            </div>
+
+            <div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <!--    <div layout:fragment="content">-->
+    <!--    </div>-->
+    <!--    <div th:replace="fragments/footer :: footer"></div>-->
+</div>
+</body>
+</html>
+
