@@ -29,13 +29,18 @@ public class VideoServiceImp implements VideoService {
 
     @Override
     public Page<Video> getAllVideo(Pageable pageable) {
-        Page<Video> page = videoRepository.findAll(pageable);
-        return page;
+        return videoRepository.findAll(pageable);
     }
 
     @Override
-    public List<Video> findAllVideoByUserId(Long id) {
-        return (List<Video>) videoRepository.findById(id).orElse(new Video());
+    public Page<Video> findAllVideoByUser(User user, Pageable pageable) {
+        Page<Video> page;
+        if(user == null) {
+            page = videoRepository.findAll(pageable);
+        } else {
+            page = videoRepository.findByUploadedById(user.getId(), pageable);
+        }
+        return page;
     }
 
     @Override

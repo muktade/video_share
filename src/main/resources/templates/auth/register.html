@@ -9,7 +9,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <div layout:fragment="content" style="margin-top:100px">
+
+
+    <th:block layout:fragment="navbar" >
+        <div th:replace="fragments/home_nav :: homenav"></div>
+    </th:block>
+
+    <div layout:fragment="content" style="margin-top:100px">
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">

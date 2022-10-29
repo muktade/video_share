@@ -1,7 +1,6 @@
 package com.example.myyoutube.controller;
 
 
-import com.example.myyoutube.common.Constants;
 import com.example.myyoutube.entity.User;
 import com.example.myyoutube.entity.Video;
 import com.example.myyoutube.service.UserService;
@@ -13,7 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -28,17 +30,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class VideoController {
 
     private final VideoService videoService;
-    private final UserService userService;
 
-    ////add Video
-
-    @GetMapping("video-upload-form")
+    @GetMapping("upload")
     public String addUserPage(Model model) {
         model.addAttribute("video", new Video());
-        return "add_video";
+        return "dashboard/add_video";
     }
 
-    @PostMapping(value = "savea")
+    @PostMapping(value = "save")
     public String addVideo(Video video, HttpSession session) {
 
         User user = (User) session.getAttribute("user");
@@ -49,34 +48,33 @@ public class VideoController {
         vdo.setUploadedBy(user);              /////login user id diye kaj korte hobe
         vdo.setUploadedDate(this.getLocalDateTime());
         videoService.saveVideo(vdo);
-        return "/dashboard";
+        return "dashboard/index";
     }
 
-    ///Find All Video
     @GetMapping(value = "allvideos/{pageNumber}/{pageSize}/{sortDirection}",
             produces = APPLICATION_JSON_VALUE)
-    private ResponseEntity<Page<Video>> findAllVideos(@PathVariable(value = "pageNumber", required = false) Integer pageNumber,
-                                                      @PathVariable(value = "pageSize", required = false) Integer pageSize,
-                                                      @PathVariable(value = "sortDirection", required = false) String sortDirection, Model model) {
+    private ResponseEntity<Page<Video>> findAllVideoByUserId(@PathVariable(value = "pageNumber", required = false) Integer pageNumber,
+                                                             @PathVariable(value = "pageSize", required = false) Integer pageSize,
+                                                             @PathVariable(value = "sortDirection", required = false) String sortDirection,
+                                                             Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
         Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, sortDirection, "id");
-        Page<Video> page = videoService.getAllVideo(pageable);
+        Page<Video> page = videoService.findAllVideoByUser(user, pageable);
         model.addAttribute("video", page);
         return ResponseEntity.ok(page);
     }
 
-    ///Find All Videos By User
-    @GetMapping(value = "userallvideos/{userId}/{pageNumber}/{pageSize}/{sortDirection}") ///user Id = Login User Id
-    public ResponseEntity<Page<Video>> findAllVideoByUserId(@PathVariable("userId") Long id,
-                                                            @PathVariable(value = "pageNumber", required = false) Integer pageNumber,
-                                                            @PathVariable(value = "pageSize", required = false) Integer pageSize,
-                                                            @PathVariable(value = "sortDirection", required = false) String sortDirection) {
+    @GetMapping(value = "user-videos/{pageNumber}/{pageSize}/{sortDirection}")
+    public ResponseEntity<Page<Video>> findAllVideos(
+            @PathVariable(value = "pageNumber", required = false) Integer pageNumber,
+            @PathVariable(value = "pageSize", required = false) Integer pageSize,
+            @PathVariable(value = "sortDirection", required = false) String sortDirection) {
 
         Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, sortDirection, "id");
         Page<Video> page = videoService.getAllVideo(pageable);
         return ResponseEntity.ok(page);
     }
 
-    ///find Video Info By Id and increase total views
     @GetMapping("videoinfo/{videoId}")
     public String getVideoInfo(@PathVariable("videoId") Long id, Model model) {
         Video video = videoService.getVideoInfoById(id);
@@ -85,7 +83,7 @@ public class VideoController {
         }).start();
         video.setVideoLink(VDO_TEMPLATE.replace("${video_id}", video.getVideoId()));
         model.addAttribute("video", video);
-        return "video";
+        return "dashboard/video";
     }
 
     //////set like of video ///user er id lagbe tahole hobe ar aivabe dislike er kaj korte hobe
@@ -111,7 +109,7 @@ public class VideoController {
     ///////// extra methods//////////
 
     private String getVideoUniqueId(String videoId) {
-        return videoId.substring(videoId.lastIndexOf("/" ) + 1);
+        return videoId.substring(videoId.lastIndexOf("/") + 1);
     }
 
     private LocalDateTime getLocalDateTime() {

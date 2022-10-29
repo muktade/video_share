@@ -10,7 +10,7 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div th:replace="fragments/navbar :: homenav">
+<div th:replace="fragments/dashboard_nav :: homenav">
 </div>
 <br>
 <br>
@@ -19,7 +19,7 @@
 <div class="container">
 
 
-    <form action="#" th:action="@{/video/savea}" th:object="${video}" method="post">
+    <form action="#" th:action="@{/video/save}" th:object="${video}" method="post">
         <div class="form-group">
 
             <input class="form-control" type="hidden" th:field="*{id}"/>
