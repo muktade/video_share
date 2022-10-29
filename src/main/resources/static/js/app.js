@@ -47,6 +47,13 @@ const makeVideoCard = (data) => {
     `;
 }
 
+$(document).ready(function () {
+    $('#dtHorizontalExample').DataTable({
+        "scrollX": true
+    });
+    $('.dataTables_length').addClass('bs-select');
+});
+
 // search bar
 
 const searchInput = document.querySelector('.search-bar');
