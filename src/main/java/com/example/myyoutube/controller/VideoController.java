@@ -44,8 +44,8 @@ public class VideoController {
 
         Video vdo = new Video();
         vdo.setTitle(video.getTitle());
-        vdo.setVideoId(this.getVideoUniqueId(video.getVideoId())); ///Find video unique id
-        vdo.setUploadedBy(user);              /////login user id diye kaj korte hobe
+        vdo.setVideoId(this.getVideoUniqueId(video.getVideoId()));
+        vdo.setUploadedBy(user);
         vdo.setUploadedDate(this.getLocalDateTime());
         videoService.saveVideo(vdo);
         return "dashboard/index";
@@ -86,7 +86,6 @@ public class VideoController {
         return "dashboard/video";
     }
 
-    //////set like of video ///user er id lagbe tahole hobe ar aivabe dislike er kaj korte hobe
     @PostMapping("videolike/{videoId}")
     public String setLikeVideo(@PathVariable("videoId") Long id, HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -100,13 +99,13 @@ public class VideoController {
         return "newVideoInfo";
     }
 
-    ///Find Video Upload User Information
+
     @GetMapping("userinfo/{videoId}")
     public User getUserInf(@PathVariable("videoId") Long id) {
         return videoService.findUserInfo(id);
     }
 
-    ///////// extra methods//////////
+
 
     private String getVideoUniqueId(String videoId) {
         return videoId.substring(videoId.lastIndexOf("/") + 1);
