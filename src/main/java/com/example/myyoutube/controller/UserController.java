@@ -27,19 +27,15 @@ public class UserController {
 //    Authentication auth;
 //
     @GetMapping("")
-    public String showu(HttpSession session, Model model){
+    public String show(HttpSession session, Model model){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("auth", auth);
-        Class<?> u=auth.getPrincipal().getClass();
-        System.out.println(u.getSimpleName());
-        System.out.println(session.getAttributeNames());
-
         return "index";
     }
 
     @GetMapping("dashboard")
-    public String showDashoard(Model model){
+    public String showDashboard(Model model){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("video", new Video());
