@@ -7,10 +7,14 @@
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">My Youtube</title>
 
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+
+    <script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div th:replace="fragments/navbar :: homenav">
+<div layout:fragment="navbar">
 </div>
 <div class="container">
     <div layout:fragment="content">
