@@ -40,8 +40,7 @@
 
                             <div class="video-post-date">
                                 <span><i class="fa fa-calendar"></i></span>
-                                <p th:text="${video.uploadedDate}"></p>
-
+                                <p th:text="${video.date}"></p>
                                 <span class="video-posts-author">
                                         <i class="fa-solid fa-user"></i>
                                         <a href="javascript:void(0)">Uploaded by </a><span
@@ -63,7 +62,7 @@
                             <p>{{likeCount}}</p>
                         </div>
                         <div class="video-dislike">
-                                <span style="cursor: pointer;" @click="dislike">
+                            <span style="cursor: pointer;" @click="dislike"></span>
                                     <span><i class="far fa-thumbs-down"></i></span>
                                     </a>
                                     <p>{{dislikeCount}}</p>

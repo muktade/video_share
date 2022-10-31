@@ -51,4 +51,7 @@ public class Video extends BaseEntity {
     @Transient
     private int videoDislike;
 
+    @Transient
+    private String date;
+
 }

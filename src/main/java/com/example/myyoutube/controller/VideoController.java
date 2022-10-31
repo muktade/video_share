@@ -70,6 +70,7 @@ public class VideoController {
     @GetMapping("videoinfo/{videoId}")
     public String getVideoInfo(@PathVariable("videoId") Long id, Model model) {
         Video video = videoService.getVideoInfoById(id);
+        video.setDate(video.getUploadedDate().toString().replace("T", " "));
         new Thread(() -> {
             videoService.addVideoView(id);
         }).start();
