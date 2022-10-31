@@ -6,14 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div th:fragment="homenav">
-            <nav class="navbar navbar-expand-md fixed-top navbar-light">
+        <div th:fragment="navbar">
+            <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
                 <a class="navbar-brand" href="#" th:href="@{/}">Mytube</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto"> 
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+                    <ul class="nav navbar-nav ml-auto" th:if="${session.user== null}">
                         <li class="nav-item active">
                             <a class="nav-link" href="#" th:href="@{/}" > Home </a>
                         </li>
@@ -24,7 +24,21 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" th:href="@{/auth/login}"> Login </a>
                         </li>
-                    </ul>                    
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto" th:if="${session.user != null}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/}"> Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/video/upload}"> Upload </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#" th:href="@{/dashboard/}"> Dashboard </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/logout}"> Log Out </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </div>

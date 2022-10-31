@@ -32,6 +32,7 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("auth", auth);
         return "index";
+//        return "details-mod.html";
     }
 
     @GetMapping("dashboard")

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="content" id="app" class="container-flex">
+
+        <div class="item-flex" v-for="video in videos">
+            <a :href="'/video/videoinfo/' + video.id">
+                <img height="100%" width="100%" class="img-vdo"
+                    :src="'https://img.youtube.com/vi/' + video.videoId + '/0.jpg'" />
+                <div class="p-1 text-wrap vdo-title">
+                    {{video.title}}
+                </div>
+            </a>
+        </div>
+
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    videos: [],
+                    pageNumber: 0,
+                    isAllCollected: false
+                },
+                created: function () {
+                    this.loadImages();
+                    this.setScrollListener();
+                },
+                methods: {
+                    loadImages: function () {
+                        let _this = this;
+                        if (_this.isAllCollected) return;
+                        let _url = window.location.href.includes('dashboard') ? '/video/user-videos/' : '/video/allvideos/';
+                        fetch(`${_url + _this.pageNumber++}/24`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data && Array.isArray(data)) {
+                                    if (data.length) {
+                                        _this.videos = _this.videos.concat(data);
+                                    } else {
+                                        _this.isAllCollected = true;
+                                    }
+                                }
+                            });
+                    },
+                    setScrollListener: function () {
+                        let _this = this;
+                        window.addEventListener('scroll', function () {
+                            if (window.scrollY + window.innerHeight >=
+                                document.documentElement.scrollHeight) {
+                                _this.loadImages();
+                            }
+                        })
+
+                    }
+                }
+            });
+
+        </script>
+
+    </div>
+
+</body>
+
+</html>

@@ -8,10 +8,10 @@ import com.example.myyoutube.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -34,7 +34,7 @@ public class VideoServiceImp implements VideoService {
     @Override
     public Page<Video> findAllVideoByUser(User user, Pageable pageable) {
         Page<Video> page;
-        if(user == null) {
+        if (user == null) {
             page = videoRepository.findAll(pageable);
         } else {
             page = videoRepository.findByUploadedById(user.getId(), pageable);
@@ -52,10 +52,20 @@ public class VideoServiceImp implements VideoService {
         return userRepository.findById(videoId).orElse(new User());
     }
 
-    @Modifying
     @Override
     public boolean addVideoView(long videoId) {
         int result = videoRepository.addVideoView(videoId);
         return result > 0;
     }
+
+    @Override
+    public List<Video> findV(User user) {
+        List<Video> list = videoRepository.findAllVideoByUploadedBy(user);
+        return list;
+    }
+
+//    @Override
+//    public int countLike(Long videoId) {
+//        return videoRepository.getLikeById(videoId);
+//    }
 }

@@ -1,6 +1,7 @@
 package com.example.myyoutube.entity;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import javax.persistence.MappedSuperclass;
 
 @Getter @Setter
 @MappedSuperclass
+@Data
 public class BaseEntity {
 
     @Id

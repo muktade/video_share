@@ -1,0 +1,315 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"-->
+<!--    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+
+  <title>Hello, world!</title>
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"-->
+<!--    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="-->
+<!--    crossorigin="anonymous" referrerpolicy="no-referrer" />-->
+  <script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+  <script th:src="@{/js/popper.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <script th:src="@{/js/app.js}"></script>
+  <style>
+    /*.video-posts-data {*/
+    /*  overflow: hidden;*/
+    /*  margin: 20px 0;*/
+    /*}*/
+
+    /*.video-post-title .video-icons {*/
+    /*  float: left;*/
+    /*}*/
+
+    /*.video-icons {*/
+    /*  width: 50px;*/
+    /*  height: 50px;*/
+    /*  display: inline-block;*/
+    /*  background-color: #f44336;*/
+    /*  line-height: 52px;*/
+    /*  color: #fff;*/
+    /*  text-align: center;*/
+    /*  font-size: 30px;*/
+    /*}*/
+
+    /*.fa,*/
+    /*.fas {*/
+    /*  font-weight: 900;*/
+    /*}*/
+
+    /*.video-post-title .video-post-info {*/
+    /*  float: left;*/
+    /*}*/
+
+    /*.video-post-info {*/
+    /*  margin-left: 15px;*/
+    /*}*/
+
+    /*.video-post-info h4 {*/
+    /*  font-size: 16px;*/
+    /*  font-weight: 500;*/
+    /*  margin-top: 5px;*/
+    /*  margin-bottom: 5px;*/
+    /*}*/
+
+    /*.video-post-info h4 a {*/
+    /*  color: #444;*/
+    /*  font-weight: 700;*/
+    /*}*/
+
+    /*.video-post-date p,*/
+    /*.video-post-author p,*/
+    /*.details {*/
+    /*  display: inline-block;*/
+    /*  font-size: 12px;*/
+    /*}*/
+
+    /*.video-post-title p {*/
+    /*  margin-bottom: 0;*/
+    /*}*/
+
+    /*.video-post-wrapper p {*/
+    /*  line-height: 24px;*/
+    /*}*/
+
+    /*.video-post-date .video-posts-author {*/
+    /*  padding-left: 10px;*/
+    /*}*/
+
+    /*.video-posts-author a {*/
+    /*  padding-left: 10px;*/
+    /*}*/
+
+    /*.video-posts-data .video-post-counter {*/
+    /*  float: right;*/
+    /*}*/
+
+    /*.video-post-viewers h3 {*/
+    /*  font-size: 22px;*/
+    /*  font-weight: 400;*/
+    /*  margin: 0;*/
+    /*}*/
+
+    /*.video-post-counter .video-like {*/
+    /*  float: left;*/
+    /*}*/
+
+    /*.video-like span a {*/
+    /*  color: #359261;*/
+    /*}*/
+
+    /*.video-like p,*/
+    /*.video-dislike p {*/
+    /*  margin-bottom: 0;*/
+    /*  display: inline-block;*/
+    /*}*/
+
+    /*.video-post-wrapper p {*/
+    /*  line-height: 24px;*/
+    /*}*/
+
+    /*.video-post-counter .video-dislike {*/
+    /*  float: right;*/
+    /*}*/
+
+    /*.video-dislike span a {*/
+    /*  color: #ff0000;*/
+    /*}*/
+
+    /*.video-like p,*/
+    /*.video-dislike p {*/
+    /*  margin-bottom: 0;*/
+    /*  display: inline-block;*/
+    /*}*/
+
+    /*.video-post-wrapper p {*/
+    /*  line-height: 24px;*/
+    /*}*/
+
+    /*.video-like p,*/
+    /*.video-dislike p {*/
+    /*  margin-bottom: 0;*/
+    /*  display: inline-block;*/
+    /*}*/
+
+    /*.video-post-wrapper p {*/
+    /*  line-height: 24px;*/
+    /*}*/
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="video-post-wrapper">
+          <div class="video-posts-video">
+
+            <div class="embed-responsive embed-responsive-16by9 ratio ratio-16x9">
+              <iframe src="https://www.youtube.com/embed/6jiNS_4CEug" class="embed-responsive-item"></iframe>
+            </div>
+          </div>
+          <div class="video-posts-data">
+            <div class="video-post-title">
+              <span class="video-icons"><i class="fa fa-info-circle"></i></span>
+              <div class="video-post-info">
+                <h4><a href="#">Themeix Media</a></h4>
+                <div class="video-post-date">
+                  <span><i class="fa fa-calendar"></i></span>
+                  <p>april 15, 2019</p>
+                  <span class="video-posts-author">
+                    <i class="fa-solid fa-user"></i>
+                    <a href="javascript:void(0)">Uploaded by User</a>
+                  </span>
+                </div>
+                <a href="#details" class="details details-btn" data-toggle="collapse">Show Details</a>
+              </div>
+            </div>
+            <div class="video-post-counter">
+              <div class="video-post-viewers">
+                <h3>241,050 views</h3>
+              </div>
+              <div class="video-like">
+                <span>
+                  <a href="">
+                    <i class="far fa-thumbs-up"></i>
+                  </a>
+                </span>
+                <p>421825</p>
+              </div>
+              <div class="video-dislike">
+                <span>
+                  <a href="">
+                    <i class="far fa-thumbs-down"></i>
+                  </a>
+                </span>
+                <p>9694</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-post-details mt-3 collapse" id="details">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#like">Like List</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#dislike">Dislike List</a>
+              </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div id="like" class="container tab-pane active"><br>
+                <h3>User List of Like</h3>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Username</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>@mdo</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>Larry</td>
+                      <td>@twitter</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="dislike" class="container tab-pane fade"><br>
+                <h3>User List of Dislike</h3>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Username</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>@mdo</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>Larry</td>
+                      <td>@twitter</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+<!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+<!--    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--    crossorigin="anonymous"></script>-->
+<!--  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"-->
+<!--    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"-->
+<!--    crossorigin="anonymous"></script>-->
+<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"-->
+<!--    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"-->
+<!--    crossorigin="anonymous"></script>-->
+
+  <script>
+    $(document).ready(function () {
+      $(".details-btn").click(function () {
+        var text=$(this).text()
+        if (text=="Show Details") {
+          $(this).text("Hide Details")
+        }else{
+          $(this).text("Show Details")
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

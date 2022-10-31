@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.example.myyoutube.common.Constants.VDO_TEMPLATE;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Controller
@@ -38,40 +38,33 @@ public class VideoController {
 
     @PostMapping(value = "save")
     public String addVideo(Video video, HttpSession session) {
-
         User user = (User) session.getAttribute("user");
-
         Video vdo = new Video();
         vdo.setTitle(video.getTitle());
         vdo.setVideoId(this.getVideoUniqueId(video.getVideoId()));
         vdo.setUploadedBy(user);
-        vdo.setUploadedDate(this.getLocalDateTime());
+        vdo.setUploadedDate(LocalDateTime.now());
         videoService.saveVideo(vdo);
         return "dashboard/index";
     }
 
-    @GetMapping(value = "allvideos/{pageNumber}/{pageSize}/{sortDirection}",
-            produces = APPLICATION_JSON_VALUE)
-    private ResponseEntity<Page<Video>> findAllVideoByUserId(@PathVariable(value = "pageNumber", required = false) Integer pageNumber,
-                                                             @PathVariable(value = "pageSize", required = false) Integer pageSize,
-                                                             @PathVariable(value = "sortDirection", required = false) String sortDirection,
-                                                             Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, sortDirection, "id");
-        Page<Video> page = videoService.findAllVideoByUser(user, pageable);
-        model.addAttribute("video", page);
-        return ResponseEntity.ok(page);
+    @GetMapping(value = "allvideos/{pageNumber}/{pageSize}", produces = APPLICATION_JSON_VALUE)
+    private ResponseEntity<List<Video>> findAllVideoByUserId(@PathVariable(value = "pageNumber", required = false) Integer pageNumber,
+                                                             @PathVariable(value = "pageSize", required = false) Integer pageSize) {
+        Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, ASC, "id");
+        Page<Video> page = videoService.findAllVideoByUser(null, pageable);
+        return ResponseEntity.ok(page.getContent());
     }
 
-    @GetMapping(value = "user-videos/{pageNumber}/{pageSize}/{sortDirection}")
-    public ResponseEntity<Page<Video>> findAllVideos(
+    @GetMapping(value = {"user-videos", "user-videos/{pageNumber}/{pageSize}"}, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Video>> findAllVideos(
             @PathVariable(value = "pageNumber", required = false) Integer pageNumber,
             @PathVariable(value = "pageSize", required = false) Integer pageSize,
-            @PathVariable(value = "sortDirection", required = false) String sortDirection) {
-
-        Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, sortDirection, "id");
-        Page<Video> page = videoService.getAllVideo(pageable);
-        return ResponseEntity.ok(page);
+            HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        Pageable pageable = PageUtils.getPageable(pageNumber, pageSize, ASC, "id");
+        Page<Video> page = videoService.findAllVideoByUser(user, pageable);
+        return ResponseEntity.ok(page.getContent());
     }
 
     @GetMapping("videoinfo/{videoId}")
@@ -80,40 +73,56 @@ public class VideoController {
         new Thread(() -> {
             videoService.addVideoView(id);
         }).start();
-        video.setVideoLink(VDO_TEMPLATE.replace("${video_id}", video.getVideoId()));
         model.addAttribute("video", video);
-        return "dashboard/video";
+        return "dashboard/video_details";
     }
 
-    @PostMapping("videolike/{videoId}")
-    public String setLikeVideo(@PathVariable("videoId") Long id, HttpSession session) {
+    @GetMapping("videolike/{videoId}")
+    public String setLikeVideo(@PathVariable("videoId") Long id, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        Video newVideoInfo = new Video();
         Video oldVideoInfo = videoService.getVideoInfoById(id);
-
         List<User> likedUsers = oldVideoInfo.getLikeBy();
+        for(User usr : oldVideoInfo.getLikeBy()){
+            if(usr.getId() == user.getId()){
+                return "redirect:/video/videoinfo/"+id;
+            }
+        }
         likedUsers.add(user);
+        oldVideoInfo.setLikeBy(likedUsers);
+        videoService.saveVideo(oldVideoInfo);
+        model.addAttribute("likeUserList", likedUsers);
+        return "redirect:/video/videoinfo/"+id;
 
-        videoService.saveVideo(newVideoInfo);
-        return "newVideoInfo";
     }
 
+    @GetMapping("videodislike/{videoId}")
+    public String setDislikeVideo(@PathVariable("videoId") Long id, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        Video videoInfo = videoService.getVideoInfoById(id);
+        for(User usr : videoInfo.getDislikeBy()){
+            if(usr.getId() == user.getId()){
+                return "redirect:/video/videoinfo/"+id;
+            }
+        }
+        System.out.println(videoInfo.getLikeBy());
+
+        List<User> dislikeUsers = videoInfo.getDislikeBy();
+        dislikeUsers.add(user);
+
+        videoInfo.setDislikeBy(dislikeUsers);
+
+        videoService.saveVideo(videoInfo);
+        model.addAttribute("dislikeUserList", dislikeUsers);
+        return "redirect:/video/videoinfo/"+id;
+    }
 
     @GetMapping("userinfo/{videoId}")
     public User getUserInf(@PathVariable("videoId") Long id) {
         return videoService.findUserInfo(id);
     }
 
-
-
     private String getVideoUniqueId(String videoId) {
         return videoId.substring(videoId.lastIndexOf("/") + 1);
     }
 
-    private LocalDateTime getLocalDateTime() {
-        LocalDateTime dt = LocalDateTime.now();
-//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-//        final DateTimeFormatter isoDateTime = DateTimeFormatter.ISO_DATE_TIME;
-        return dt;
-    }
 }

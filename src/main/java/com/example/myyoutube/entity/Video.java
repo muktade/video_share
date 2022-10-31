@@ -9,7 +9,10 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "video")
+@Table(name = "video",
+        indexes = {
+                @Index(name = "idx_video_id", columnList = "video_id")
+        })
 public class Video extends BaseEntity {
 
     @Column(name = "video_id")
@@ -18,7 +21,7 @@ public class Video extends BaseEntity {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "uploaded_by", referencedColumnName = "id")
     private User uploadedBy;
 
@@ -27,7 +30,6 @@ public class Video extends BaseEntity {
 
     @Column(name = "total_views")
     private long totalViews;
-
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "like_by", referencedColumnName = "id")
@@ -39,5 +41,14 @@ public class Video extends BaseEntity {
 
     @Transient
     private String videoLink;
+
+    @Transient
+    private String videoThumbnail;
+
+    @Transient
+    private int videoLike;
+
+    @Transient
+    private int videoDislike;
 
 }
