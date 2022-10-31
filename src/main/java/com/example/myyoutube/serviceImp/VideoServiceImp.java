@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
@@ -24,11 +23,6 @@ public class VideoServiceImp implements VideoService {
     @Override
     public Video saveVideo(Video video) {
         return videoRepository.save(video);
-    }
-
-    @Override
-    public Page<Video> getAllVideo(Pageable pageable) {
-        return videoRepository.findAll(pageable);
     }
 
     @Override
@@ -59,13 +53,25 @@ public class VideoServiceImp implements VideoService {
     }
 
     @Override
-    public List<Video> findV(User user) {
-        List<Video> list = videoRepository.findAllVideoByUploadedBy(user);
-        return list;
+    public boolean likeVideo(long videoId, long userId) {
+        int userLikeCount = videoRepository.isLiked(videoId, userId);
+        if (userLikeCount == 0) {
+            videoRepository.deleteDislikeVideo(videoId, userId);
+            int result = videoRepository.likeVideo(videoId, userId);
+            return result > 0;
+        }
+        return false;
     }
 
-//    @Override
-//    public int countLike(Long videoId) {
-//        return videoRepository.getLikeById(videoId);
-//    }
+    @Override
+    public boolean dislikeVideo(long videoId, long userId) {
+        int userLikeCount = videoRepository.isDisliked(videoId, userId);
+        if (userLikeCount == 0) {
+            videoRepository.deleteLikeVideo(videoId, userId);
+            int result = videoRepository.dislikeVideo(videoId, userId);
+            return result > 0;
+        }
+        return false;
+    }
+
 }

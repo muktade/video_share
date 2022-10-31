@@ -18,11 +18,30 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query("UPDATE Video v SET v.totalViews = v.totalViews + 1 where v.id = ?1")
     int addVideoView(long videoId);
 
-//    @Query("SELECT v.* FROM Video v WHERE v.uploadedBy = ?1")
+    @Modifying
+    @Query(value = "insert into video_like_by values(?1, ?2)", nativeQuery = true)
+    int likeVideo(long videoId, long userId);
+
+    @Modifying
+    @Query(value = "insert into video_dislike_by values(?1, ?2)", nativeQuery = true)
+    int dislikeVideo(long videoId, long userId);
+
+    @Modifying
+    @Query(value = "delete from video_like_by where video_id = ?1 and like_by_id = ?2", nativeQuery = true)
+    int deleteLikeVideo(long videoId, long userId);
+
+    @Modifying
+    @Query(value = "delete from video_dislike_by where video_id = ?1 and dislike_by_id = ?2", nativeQuery = true)
+    int deleteDislikeVideo(long videoId, long userId);
+
+    @Query(value = "select count(video_id) from video_dislike_by where video_id = ?1 and dislike_by_id = ?2", nativeQuery = true)
+    int isDisliked(long videoId, long userId);
+
+    @Query(value = "select count(video_id) from video_like_by where video_id = ?1 and like_by_id = ?2", nativeQuery = true)
+    int isLiked(long videoId, long userId);
+
     List<Video> findAllVideoByUploadedBy(User user);
 
     Page<Video> findByUploadedById(long userId, Pageable pageable);
 
-//    @Query("select count(v) from Video v where v. = ?1")
-//    int getLikeById(Long videoId);
 }

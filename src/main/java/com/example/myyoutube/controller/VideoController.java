@@ -78,47 +78,17 @@ public class VideoController {
     }
 
     @GetMapping("videolike/{videoId}")
-    public String setLikeVideo(@PathVariable("videoId") Long id, HttpSession session, Model model) {
+    public ResponseEntity<String> setLikeVideo(@PathVariable("videoId") Long id, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        Video oldVideoInfo = videoService.getVideoInfoById(id);
-        List<User> likedUsers = oldVideoInfo.getLikeBy();
-        for(User usr : oldVideoInfo.getLikeBy()){
-            if(usr.getId() == user.getId()){
-                return "redirect:/video/videoinfo/"+id;
-            }
-        }
-        likedUsers.add(user);
-        oldVideoInfo.setLikeBy(likedUsers);
-        videoService.saveVideo(oldVideoInfo);
-        model.addAttribute("likeUserList", likedUsers);
-        return "redirect:/video/videoinfo/"+id;
-
+        boolean isLiked = videoService.likeVideo(id, user.getId());
+        return isLiked ? ResponseEntity.ok("Success") : ResponseEntity.badRequest().body("Failed");
     }
 
     @GetMapping("videodislike/{videoId}")
-    public String setDislikeVideo(@PathVariable("videoId") Long id, HttpSession session, Model model) {
+    public ResponseEntity<String> setDislikeVideo(@PathVariable("videoId") Long id, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        Video videoInfo = videoService.getVideoInfoById(id);
-        for(User usr : videoInfo.getDislikeBy()){
-            if(usr.getId() == user.getId()){
-                return "redirect:/video/videoinfo/"+id;
-            }
-        }
-        System.out.println(videoInfo.getLikeBy());
-
-        List<User> dislikeUsers = videoInfo.getDislikeBy();
-        dislikeUsers.add(user);
-
-        videoInfo.setDislikeBy(dislikeUsers);
-
-        videoService.saveVideo(videoInfo);
-        model.addAttribute("dislikeUserList", dislikeUsers);
-        return "redirect:/video/videoinfo/"+id;
-    }
-
-    @GetMapping("userinfo/{videoId}")
-    public User getUserInf(@PathVariable("videoId") Long id) {
-        return videoService.findUserInfo(id);
+        boolean isDisliked = videoService.dislikeVideo(id, user.getId());
+        return isDisliked ? ResponseEntity.ok("Success") : ResponseEntity.notFound().build();
     }
 
     private String getVideoUniqueId(String videoId) {
